@@ -50,9 +50,15 @@ func main() {
 	fmt.Println("Completed", iterations, "iterations without any errors.")
 }
 
+var executor = execCommand
+
+func execCommand(cmd string, args ...string) ([]byte, error) {
+	return exec.Command(cmd, args...).Output()
+}
+
 func execute(cmd string, args ...string) {
 	fmt.Printf(".")
-	output, err := exec.Command(cmd, args...).Output()
+	output, err := executor(cmd, args...)
 	if err != nil {
 		// Dump the output.
 		fmt.Println(output)
